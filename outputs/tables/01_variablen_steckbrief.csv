@@ -1,0 +1,14 @@
+,dtype,eindeutige Werte,fehlend,Messniveau,Rolle
+price,str,13625,33612,ratio (nach Parsing),Zielvariable: Abfragepreis pro Nacht
+room_type,str,4,0,nominal,Gruppierung
+accommodates,int64,16,0,"ratio, diskret",Kapazität (max. Gäste)
+bedrooms,float64,16,25,"ratio, diskret","Kapazität, Gegenprobe"
+neighbourhood_cleansed,str,20,0,nominal,Lage (Arrondissement)
+host_id,int64,54481,0,nominal,"Abhängigkeit, Host-Cluster"
+calculated_host_listings_count,int64,101,0,"ratio, diskret",Inserate je Host
+minimum_nights,float64,115,118,"ratio, diskret",Erklärung der Abfragedauer
+price_quote_checkin_date,str,367,29078,intervall (Datum),Abfragebedingung
+availability_365,int64,366,0,"ratio, diskret",nur Erklärung fehlender Preise
+source,str,1,44105,nominal,nur Erklärung fehlender Preise
+number_of_reviews_ltm,int64,160,0,"ratio, diskret (Zählung)",Aktivitätsindikator
+property_type,str,60,0,nominal,Fallprüfung

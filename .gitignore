@@ -1,0 +1,5 @@
+# reproduzierbar erzeugt (NB01 schreibt den Analysedatensatz neu)
+data/processed/
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/

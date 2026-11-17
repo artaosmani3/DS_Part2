@@ -1,0 +1,27 @@
+# Entscheidungslog
+
+Hier stehen die Entscheidungen, die wir verteidigen müssen, jeweils mit Begründung und Fundstelle. Die Zahlen stammen aus den ausgeführten Notebooks (Snapshot 2026-09-16, Kern n = 37 584).
+
+| # | Entscheidung | Begründung | Folge | Fundstelle |
+|---|---|---|---|---|
+| E1 | Ein einziger Snapshot (2026-09-16), mit SHA-256 geprüft | Vergleichbarkeit und Reproduzierbarkeit. Inside Airbnb ersetzt ältere Dateien ohne Ankündigung. | Alle Zahlen gelten für diesen Zeitpunkt. | NB01 §1, `src/daten.py` |
+| E2 | `price` gilt als **Abfragepreis pro Nacht in EUR** für einen Termin, nicht als bezahlter Preis | `price` = `price_quote_price_per_night` = Gesamtpreis/Nächte (100 %). Währung im JSON: EUR. Die Felder fehlen im Data Dictionary v4.3. | Keine Aussagen zu Umsatz, Nachfrage oder Auslastung | NB01 §3 |
+| E3 | **Keine Imputation** fehlender Preise (33 612 = 43.6 %) | Das Fehlen hängt stark an Nicht-Verfügbarkeit (97.6 % bei `availability_365 = 0`). Ein imputierter Preis wäre ein erfundenes Angebot. MAR oder MNAR ist nicht prüfbar. | Zielpopulation: buchbar angebotene Inserate. Diese sind grösser, aktiver und häufiger von Mehrfach-Hosts (NB01 §5). | NB01 §4–5 |
+| E4 | Abfragen ab **28 Nächten** sind aus dem Kern ausgeschlossen (5 953 = 13.7 % der bepreisten) | Fast alle sind «monthly priced», also rabattierte Monatspreise und eine andere Messgrösse. Begründet über die Definition, nicht über das Ergebnis. | In NB04 als Sensitivität wieder aufgenommen | NB01 §3, §7 |
+| E5 | Extremwerte werden **nicht gelöscht**, sondern gekennzeichnet (`flag_extrem`: ≥ 10 000 € oder > 1 000 €/Person, 117 Fälle) | Kein Fehler belegbar. Ein Teil sind vermutlich Sperrpreise (z. B. Inserat «indisponible»), ein Teil Luxusangebote. | Robuste Kennzahlen; Sensitivität ohne die Fälle | NB02 §5–7 |
+| E6 | Tukey und modifizierter z-Score dienen nur der **Beschreibung**, nicht als Löschregel | Sie markieren bei ganzen Unterkünften 2 525 bzw. 2 436 Werte der legitimen rechten Flanke. | – | NB02 §5 |
+| E7 | **Median, IQR und P90** berichten; Mittelwert und SD nur als Gegenprobe | Stark rechtsschief (Schiefe 56), SD > Mittelwert, 73 % unter dem Mittelwert. Ohne die gekennzeichneten Fälle ändern sich die robusten Masse um ≤ 1.3 %, der Mittelwert um 8 %, die SD um 61 %. | – | NB02 §1, §7 |
+| E8 | Grafiken mit **log-Achse**; KDE auf log₁₀(Preis) als ausdrücklich transformierte Variable | Spannweite 10 € bis 100 666 €. FD ergäbe linear 7 530 Klassen, auf log₁₀ 177. Keine Nullen, also kein Datenverlust. | Eine symmetrischere log-Verteilung ist **kein** Beweis für Log-Normalität (QQ zeigt Abweichungen an den Rändern). | NB02 §2–4 |
+| E9 | **Spearman ρ** als Zusammenhangsmass, Kendall τ als Gegenprobe, Pearson nur als Kontrast | Diskrete Kapazität mit vielen Ties, monotone und nicht lineare Form, Extremwerte. Pearson steigt ohne Extremwerte von 0.22 auf 0.50, ρ bleibt 0.60. | – | NB03 §3 |
+| E10 | Zimmerart **innerhalb gleicher Kapazität** vergleichen | Ganze Unterkünfte nehmen im Median 4 Gäste auf, Privatzimmer 2. Kapazität ist eine Drittvariable. | Verhältnis der Mediane fällt von 1.57 auf 1.10–1.27 | NB03 §4 |
+| E11 | Lagevergleich im **Segment ganze Unterkunft für 2 Gäste** | Hält Zimmerart und Kapazität fest. Das grösste homogene Segment (n = 12 145, je Arrondissement ≥ 302). | Rangfolge stimmt mit dem ganzen Kern überein (ρ = 0.97). | NB03 §5 |
+| E12 | «Teuer» = oberes Dezil: Kern-P90 (643 €) für Zimmerarten, **Segment-P90 (355 €) für Arrondissements** | Abweichung vom Vorschlag: Mit der Kern-Grenze lägen nur 247 Segment-Inserate darüber, je Arrondissement oft einstellig. | Beide Grenzen sind offengelegt. | NB03 §2, §5 |
+| E13 | Hotel- und geteilte Zimmer nur beschreiben | n = 266 bzw. 118; anderes Produkt | Hauptaussagen beruhen auf ganzen Unterkünften und Privatzimmern | NB01 §7, NB03 |
+| E14 | Sensitivitätsvarianten **vorab** festgelegt (`src/daten.py`) | Schutz vor ergebnisgetriebener Filterwahl | Ergebnis: Richtung aller Aussagen stabil; Grösse des Zimmerart-Aufpreises bei gleicher Kapazität instabil (1.03–1.30); Preisniveau stark terminabhängig | NB04 §2 |
+| E15 | Bootstrap **über Hosts** (Cluster), nur als Stabilitätsmass | Fast-Vollerhebung, keine Zufallsstichprobe; Inserate eines Hosts sind abhängig. Ein Intervall behebt keinen Selection Bias (VL06 S. 20). | Verhältnis der Mediane: 1.57 [1.50; 1.65] | NB04 §5 |
+| E16 | Keine Hypothesentests, keine Regression | Nicht im Auftrag (VL07, VL10/11); keine Zufallsstichprobe. Die Schichtung reicht für die Frage. | Drittvariablen werden nur einzeln kontrolliert. | NB03, NB04 §7 |
+
+## Berichtssätze (Muster aus NB03 §3.4 und NB04 §6)
+
+- **Preis:** Der Preis pro Nacht (Kern, n = 37 584, keine fehlenden Werte) ist unimodal und stark rechtsschief mit schwerem rechtem Tail (QQ-Bogen; Schiefe 56, auf log₁₀ 0.89). Wir berichten den Median 240 € mit IQR 162–386 € und P90 643 €. Mittelwert (367 €) und SD (913 €) dienen nur als Gegenprobe. Die Grafiken verwenden eine log-Achse (FD-Bins auf log₁₀, 177 Klassen; KDE-Bandbreite Scott × 1, geprüft mit 0.5 und 2).
+- **Kapazität:** Zwischen Gästen und Preis: ρ = 0.60, τ = 0.47, r = 0.22 (ohne Extremwerte 0.50), n = 37 584. Die Form ist monoton und weniger als proportional. Innerhalb der Zimmerarten: ρ = 0.60 (ganze Unterkunft), 0.43 (Privatzimmer), kein Simpson-Effekt. Wir berichten ρ, weil die Kapazität diskret mit vielen Ties ist und Pearson auf die Extremwerte reagiert.

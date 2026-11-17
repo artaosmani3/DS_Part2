@@ -1,0 +1,5 @@
+Schritt,Regel,Begründung,Zeilen vorher,entfernt,Anteil entfernt (%),Zeilen nachher
+0 Rohdaten,keine,"vollständiger Snapshot, ein Inserat je Zeile",77149,0,0.0,77149
+1 Preis beobachtet,preis_eur nicht fehlend,Kein Angebotspreis = kein buchbares Angebot im Abfragezeitraum (NB01 Abschnitt 5); keine Imputation der Zielvariable,77149,33612,43.6,43537
+2 Preis > 0,preis_eur > 0,Preis 0 oder negativ wäre ungültig,43537,0,0.0,43537
+3 Kurzaufenthalt-Abfrage,abfrage_naechte < 28,Ab 28 Nächten liefert Airbnb einen rabattierten Monatspreis; andere Messgrösse. Wird in der Sensitivität wieder aufgenommen,43537,5953,13.7,37584

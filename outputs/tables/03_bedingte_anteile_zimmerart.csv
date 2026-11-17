@@ -1,0 +1,5 @@
+zimmerart,Inserate (Nenner),davon im oberen Dezil,P(oberes Dezil | Zimmerart) in %,P(Zimmerart | oberes Dezil) in %,Anteil am Kern P(Zimmerart) in %
+Entire home/apt,32292,3454,10.7,91.9,85.9
+Private room,4908,265,5.4,7.0,13.1
+Hotel room,266,38,14.3,1.0,0.7
+Shared room,118,2,1.7,0.1,0.3

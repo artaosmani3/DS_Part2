@@ -1,0 +1,11 @@
+Gruppierung,Gruppe,Inserate,davon ohne Preis,Fehlrate (%)
+Zimmerart,Entire home/apt,68333,30202,44.2
+Zimmerart,Hotel room,386,108,28.0
+Zimmerart,Private room,8280,3270,39.5
+Zimmerart,Shared room,150,32,21.3
+im nächsten Jahr verfügbar (availability_365 > 0),ja,50820,7919,15.6
+im nächsten Jahr verfügbar (availability_365 > 0),nein (= 0 Tage),26329,25693,97.6
+source,(leer),44105,3551,8.1
+source,previous scrape,33044,30061,91.0
+Review in den letzten 12 Monaten,ja,40621,9818,24.2
+Review in den letzten 12 Monaten,nein,36528,23794,65.1
